@@ -1,0 +1,8 @@
+{
+  "name": "Growthland Space Solution",
+  "description": "Pan-India Industrial & Commercial Real Estate Advisory with secure document vault and enterprise user account management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
