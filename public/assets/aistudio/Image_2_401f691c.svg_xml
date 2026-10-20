@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="520" height="120" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="50%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <linearGradient id="navyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+  <!-- Architectural Icon Emblem -->
+  <g transform="translate(10, 10)">
+    <!-- Base geometric block -->
+    <rect x="10" y="42" width="22" height="52" rx="3" fill="url(#navyGrad)" opacity="0.9"/>
+    <rect x="36" y="22" width="24" height="72" rx="3" fill="url(#navyGrad)"/>
+    <rect x="64" y="34" width="22" height="60" rx="3" fill="url(#navyGrad)" opacity="0.85"/>
+    <!-- Growth angled chevron spanning upwards -->
+    <path d="M6 56 L36 12 L72 38 L94 8" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="94,8 82,14 88,24" fill="url(#goldGrad)"/>
+    <!-- Golden foundation beacon -->
+    <circle cx="36" cy="12" r="4.5" fill="#FBBF24"/>
+    <circle cx="94" cy="8" r="4" fill="#F59E0B"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="125" y="58" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-weight="900" font-size="34" fill="#0F172A" letter-spacing="1.5">GROWTHLAND</text>
+  <text x="126" y="78" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-weight="700" font-size="12.5" fill="#D97706" letter-spacing="3.5">SPACE SOLUTION PRIVATE LIMITED</text>
+  <text x="126" y="96" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-weight="600" font-size="9" fill="#64748B" letter-spacing="1.8">PAN-INDIA INDUSTRIAL &amp; COMMERCIAL REAL ESTATE ADVISORY</text>
+</svg>

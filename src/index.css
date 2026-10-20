@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "Inter", monospace, sans-serif;
+
+  --color-brand-navy: #0B192C;
+  --color-brand-blue: #1E3E62;
+  --color-brand-amber: #D97706;
+  --color-brand-amber-light: #FEF3C7;
+  --color-surface-base: #FAF8FF;
+  --color-surface-card: #FFFFFF;
+  --color-surface-muted: #F2F3FF;
+  --color-surface-soft: #EAEDFF;
+  --color-surface-border: #E2E7FF;
+  --color-text-main: #131B2E;
+  --color-text-muted: #44474C;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    color: var(--color-text-main);
+    background-color: var(--color-surface-base);
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+.font-display {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.font-technical {
+  font-family: "Inter", sans-serif;
+  letter-spacing: 0.05em;
+}
+
+/* Custom scrollbars for data tables and deal room */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
