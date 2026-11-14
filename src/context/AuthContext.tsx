@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const found = users.find(u => u.id === savedUserId);
       if (found) return found;
     }
-    return users[0] || null;
+    return null;
   });
 
   // Sync users to storage
