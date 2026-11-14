@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';                                                                                                                                                                                                                                                             
+import { supabase } from '../utils/supabase';
 import { User, UserRole, AuditLog } from '../types';
 import { INITIAL_USERS } from '../data/initialData';
 
@@ -6,8 +7,8 @@ interface AuthContextType {
   currentUser: User | null;
   users: User[];
   isAuthenticated: boolean;
-  login: (email: string, password?: string) => boolean;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<boolean>;
+  logout: () => Promise<void>;
   switchUser: (userId: string) => void;
   registerUser: (userData: Omit<User, 'id' | 'lastLogin' | 'permissions'> & { permissions?: Partial<User['permissions']> }) => User;
   updateUser: (userId: string, updates: Partial<User>) => void;
@@ -37,14 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   // Default active user is Aniket Pathak (Founder & MD / Super Admin)
-  const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    const savedUserId = localStorage.getItem('growthland_current_user_id');
-    if (savedUserId) {
-      const found = users.find(u => u.id === savedUserId);
-      if (found) return found;
-    }
-    return users[0] || null;
-  });
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   // Sync users to storage
   useEffect(() => {
@@ -60,27 +54,78 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [currentUser]);
 
-  const login = (email: string) => {
-    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-    if (user) {
-      if (user.status === 'suspended') {
-        alert('This enterprise account has been suspended by the Lead Administrator. Contact pathak.aniket@growthlandspace.com.');
-        return false;
-      }
-      const updatedUser: User = {
-        ...user,
-        lastLogin: 'Just now (Active)',
-      };
-      setUsers(prev => prev.map(u => u.id === user.id ? updatedUser : u));
-      setCurrentUser(updatedUser);
-      return true;
-    }
+  const login = async (
+  email: string,
+  password: string
+): Promise<boolean> => {
+  if (!password) return false;
+
+  const { data, error } =
+    await supabase.auth.signInWithPassword({
+      email: email.trim().toLowerCase(),
+      password,
+    });
+
+  if (error || !data.user) {
     return false;
+  }
+
+  const user = users.find(
+    (u) =>
+      u.email.toLowerCase() ===
+      data.user.email?.toLowerCase()
+  );
+
+  if (!user) {
+    await supabase.auth.signOut();
+    return false;
+  }
+
+  // Verify Super Admin role from Supabase
+  const { data: roleRecord, error: roleError } =
+    await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', data.user.id)
+      .maybeSingle();
+
+  const isSuperAdmin =
+    !roleError &&
+    roleRecord?.role === 'super_admin';
+
+  // Do not allow a locally assigned Super Admin
+  // role without database verification
+  if (
+    user.role === 'super_admin' &&
+    !isSuperAdmin
+  ) {
+    await supabase.auth.signOut();
+    return false;
+  }
+
+  const updatedUser: User = {
+    ...user,
+    role: isSuperAdmin
+      ? 'super_admin'
+      : user.role,
+    lastLogin: 'Just now (Active)',
   };
 
-  const logout = () => {
+  setUsers((prev) =>
+    prev.map((u) =>
+      u.id === user.id ? updatedUser : u
+    )
+  );
+
+  setCurrentUser(updatedUser);
+
+  return true;
+};
+
+  const logout = async () => {
+    await supabase.auth.signOut();
     setCurrentUser(null);
-  };
+};
 
   const switchUser = (userId: string) => {
     const user = users.find(u => u.id === userId);

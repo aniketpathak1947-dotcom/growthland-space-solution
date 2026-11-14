@@ -36,16 +36,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
 
   if (!isOpen) return null;
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMsg('');
-    const success = login(email);
-    if (success) {
-      onClose();
-    } else {
-      setErrorMsg('No active user account found with this email. You can register below or select an account from the 1-Click Executive Desk.');
-    }
-  };
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setErrorMsg('');
+
+  const success = await login(email, password);
+
+  if (success) {
+    onClose();
+  } else {
+    setErrorMsg(
+      'Invalid email or password. Please try again.'
+    );
+  }
+};
 
   const handleRegisterSubmit = (e: React.FormEvent) => {
     e.preventDefault();

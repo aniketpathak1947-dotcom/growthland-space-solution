@@ -118,7 +118,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Action Controls: Vault, Account, Consult */}
         <div className="flex items-center gap-2.5">
           
-          {/* Document Vault Button */}
+          {/* Document Vault Button */} {isSuperAdmin && (
           <button
             onClick={onOpenVault}
             className="flex items-center gap-1.5 h-10 px-3.5 bg-white hover:bg-[#F2F3FF] text-[#0B192C] border border-[#CBD5E1] rounded font-technical text-[11px] font-bold tracking-wider transition-all shadow-sm group"
@@ -129,9 +129,9 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="px-1.5 py-0.2 bg-[#0B192C] text-white text-[10px] rounded-full">
               {documents.length}
             </span>
-          </button>
+          </button> )}
 
-          {/* Upload Button */}
+         {isSuperAdmin && ( 
           <button
             onClick={onOpenUpload}
             className="hidden lg:flex items-center gap-1.5 h-10 px-3 bg-[#EAEDFF] hover:bg-[#DAE2FD] text-[#0B192C] border border-[#BAC7E1] rounded font-technical text-[11px] font-semibold transition-all"
@@ -140,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({
             <Upload className="w-3.5 h-3.5 text-[#1E3E62]" />
             <span>UPLOAD</span>
           </button>
-
+  )}
           {/* User Account Menu / Switcher */}
           {isAuthenticated && currentUser ? (
             <div className="relative">
@@ -156,7 +156,7 @@ export const Header: React.FC<HeaderProps> = ({
                     {currentUser.name.split(' ')[0]}
                   </span>
                   <span className="text-[9px] font-technical uppercase text-[#D97706] leading-none font-bold">
-                    {isSuperAdmin ? 'SUPER ADMIN' : currentUser.role.replace('_', ' ')}
+                    {isSuperAdmin ? 'ACCOUNT': currentUser.role.replace('_',' ')}
                   </span>
                 </div>
                 <ChevronDown className="w-3.5 h-3.5 text-gray-500" />
@@ -202,7 +202,7 @@ export const Header: React.FC<HeaderProps> = ({
                       <Upload className="w-4 h-4 text-[#D97706]" />
                       <span>Upload New Document</span>
                     </button>
-
+{isSuperAdmin && (
                     <button
                       onClick={() => {
                         setUserDropdownOpen(false);
@@ -218,7 +218,7 @@ export const Header: React.FC<HeaderProps> = ({
                         </span>
                       )}
                     </button>
-
+)}
                     <button
                       onClick={() => {
                         setUserDropdownOpen(false);
