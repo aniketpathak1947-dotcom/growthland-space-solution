@@ -38,7 +38,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   // Default active user is Aniket Pathak (Founder & MD / Super Admin)
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(() => {
+    const savedUserId = localStorage.getItem('growthland_current_user_id');
+    if (savedUserId) {
+      const found = users.find(u => u.id === savedUserId);
+      if (found) return found;
+    }
+    return null;
+  });
 
   // Sync users to storage
   useEffect(() => {
